@@ -7,11 +7,16 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
+import { Prisma } from '@prisma/client';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @Post('/register') // POST /user/register
+  register(@Body(ValidationPipe) createUserDto: Prisma.UserCreateInput) {
+    return this.userService.register(createUserDto);
+  }
 
   @Get('/verify-email/:username/:verificationToken') // GET /user/verify-email/{username}/{verificationToken}
   verifyEmail(
@@ -24,10 +29,5 @@ export class UserController {
   @Get('/check-verification/:username') // GET /user/check-verification/{username}
   checkVerification(@Param('username') username: string) {
     return this.userService.checkVerification(username);
-  }
-
-  @Post('/register') // POST /user/register
-  register(@Body(ValidationPipe) createUserDto: CreateUserDto) {
-    return this.userService.register(createUserDto);
   }
 }
