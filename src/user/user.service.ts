@@ -1,12 +1,16 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
+import { MailService } from 'src/mail/mail.service';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(
+    private readonly databaseService: DatabaseService,
+    private readonly mailService: MailService,
+  ) {}
 
-  async register(createUserDto: Prisma.UserCreateInput) {
+  async register(createUserDto: CreateUserDto) {
     const verificationToken = 'TEST'; // TODO: should be a random alphanumeric value
     const newUser = {
       ...createUserDto,
@@ -14,12 +18,14 @@ export class UserService {
       isVerified: false,
     };
 
-    // TODO: Send verification e-mail
+    await this.databaseService.user.create({ data: newUser });
+    await this.mailService.sendVerification(
+      newUser.username,
+      newUser.email,
+      newUser.verificationToken,
+    );
 
-    const user = await this.databaseService.user.create({ data: newUser });
-
-    return user;
-    //TODO: return 'User successfully registered';
+    return 'User successfully registered';
   }
 
   async verifyEmail(username: string, verificationToken: string) {

@@ -27,7 +27,7 @@ export class AllExceptionsFilter<T> extends BaseExceptionFilter {
 
     if (exception instanceof HttpException) {
       responseObj.statusCode = exception.getStatus();
-      responseObj.response = exception.message;
+      responseObj.response = exception.getResponse()['message'];
     } else if (exception instanceof Prisma.PrismaClientKnownRequestError) {
       switch (exception.code) {
         case 'P2002':

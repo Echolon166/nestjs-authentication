@@ -7,14 +7,14 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { Prisma } from '@prisma/client';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('/register') // POST /user/register
-  register(@Body(ValidationPipe) createUserDto: Prisma.UserCreateInput) {
+  register(@Body(ValidationPipe) createUserDto: CreateUserDto) {
     return this.userService.register(createUserDto);
   }
 
