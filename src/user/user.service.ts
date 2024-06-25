@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 import { MailService } from 'src/mail/mail.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { generateAlphanumeric } from 'src/utils/utils';
 
 @Injectable()
 export class UserService {
@@ -11,7 +12,7 @@ export class UserService {
   ) {}
 
   async register(createUserDto: CreateUserDto) {
-    const verificationToken = 'TEST'; // TODO: should be a random alphanumeric value
+    const verificationToken = generateAlphanumeric(6);
     const newUser = {
       ...createUserDto,
       verificationToken: verificationToken,
