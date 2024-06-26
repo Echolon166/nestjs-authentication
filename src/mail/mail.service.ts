@@ -10,6 +10,7 @@ interface ISendMail {
 
 @Injectable()
 export class MailService {
+  // Create nodemailer SMTP transporter
   transporter = createTransport({
     host: 'smtp.gmail.com',
     port: 587,
@@ -19,6 +20,9 @@ export class MailService {
     },
   });
 
+  /**
+   * Send mail
+   **/
   async send({ to, subject, message }: ISendMail) {
     const mailOptions = {
       from: process.env.GOOGLE_MAIL_APP_EMAIL,
@@ -30,6 +34,9 @@ export class MailService {
     await this.transporter.sendMail(mailOptions);
   }
 
+  /**
+   * Send verification mail
+   **/
   async sendVerification(
     username: string,
     email: string,

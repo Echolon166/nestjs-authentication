@@ -11,7 +11,11 @@ export class UserService {
     private readonly mailService: MailService,
   ) {}
 
+  /**
+   * Register user to the database
+   **/
   async register(createUserDto: CreateUserDto) {
+    // Generate verificationToken
     const verificationToken = generateAlphanumeric(6);
     const newUser = {
       ...createUserDto,
@@ -19,7 +23,9 @@ export class UserService {
       isVerified: false,
     };
 
+    // Create user in database
     await this.databaseService.user.create({ data: newUser });
+    // Send verification mail to user's email
     await this.mailService.sendVerification(
       newUser.username,
       newUser.email,
@@ -29,7 +35,11 @@ export class UserService {
     return 'User successfully registered';
   }
 
+  /**
+   * Verify user email using given verificationToken
+   **/
   async verifyEmail(username: string, verificationToken: string) {
+    // Get user from database
     const user = await this.databaseService.user.findUniqueOrThrow({
       where: { username },
     });
@@ -39,6 +49,7 @@ export class UserService {
     if (user.verificationToken !== verificationToken)
       throw new BadRequestException('Invalid verification token');
 
+    // User is verified, update isVerified in database
     await this.databaseService.user.update({
       where: { username },
       data: { isVerified: true },
@@ -47,7 +58,11 @@ export class UserService {
     return 'User successfully verified';
   }
 
+  /**
+   * Check if the user is verified
+   **/
   async checkVerification(username: string) {
+    // Get user from database
     const user = await this.databaseService.user.findUniqueOrThrow({
       where: { username },
     });

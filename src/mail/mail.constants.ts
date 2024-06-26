@@ -1,3 +1,4 @@
+// Verification email body
 export const verificationEmail = (
   username: string,
   verificationCode: string,
@@ -8,7 +9,7 @@ export const verificationEmail = (
             <div>
               <p>Thank you for signing up to use the Nestjs Authentication demo! Please verify your account using the following code:</p>
             </div>
-            <div>
+            <div> 
               <p>${verificationCode}</p>
             </div>
           </body>

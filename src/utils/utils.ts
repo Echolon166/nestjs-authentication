@@ -1,4 +1,4 @@
-/// Generate a random alphanumeric value
+// Generate a random alphanumeric value
 export function generateAlphanumeric(length: number): string {
   const chars =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

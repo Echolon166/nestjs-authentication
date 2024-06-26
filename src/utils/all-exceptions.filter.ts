@@ -14,6 +14,9 @@ type ResponseObj = {
   response: string | object;
 };
 
+/**
+ * Catch and handle all exceptions raised
+ **/
 @Catch()
 export class AllExceptionsFilter<T> extends BaseExceptionFilter {
   catch(exception: T, host: ArgumentsHost) {
