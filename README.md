@@ -1,6 +1,6 @@
 # NestJS Authentication
 
-This project is an example of implementation of a user **email authentication** with [Nestjs](https://nestjs.com/), [Prisma](https://www.prisma.io/nestjs) and [Nodemailer](https://www.nodemailer.com).
+This project is an example of implementation of user **email authentication** with [Nestjs](https://nestjs.com/), [Prisma](https://www.prisma.io/nestjs) and [Nodemailer](https://www.nodemailer.com).
 
 ## API
 
