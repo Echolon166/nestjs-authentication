@@ -36,7 +36,7 @@ export class AllExceptionsFilter<T> extends BaseExceptionFilter {
         case 'P2002':
           responseObj.statusCode = 409;
           responseObj.response =
-            'User already exists with given ' + exception.meta.target;
+            'User already exists with given ' + exception.meta?.target;
           break;
         case 'P2025':
           responseObj.statusCode = 404;
